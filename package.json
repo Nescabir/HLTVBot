@@ -1,0 +1,24 @@
+{
+  "name": "hltvbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nescabir/HLTVBot.git"
+  },
+  "author": "Nescabir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nescabir/HLTVBot/issues"
+  },
+  "homepage": "https://github.com/Nescabir/HLTVBot#readme",
+  "dependencies": {
+    "bufferutil": "^4.0.1",
+    "discord.js": "^11.5.1",
+    "hltv": "^2.15.0"
+  }
+}
