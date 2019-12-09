@@ -9,6 +9,7 @@ body {
     text-rendering: optimizeLegibility;
     border-top: 6px #7289DA solid !important;
     font-size: 16px;
+    scroll-behavior: smooth;
 }
 
 .nav-link {
@@ -78,13 +79,35 @@ body {
 
 .cards {
     margin-top: 30px !important;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
 }
 
 .card {
+    margin: 0 5px 0 5px !important;
     border-radius: 5px !important;
     box-shadow: none !important;
     width: 18rem !important;
-    min-height: min-content !important;
+}
+
+.card.start{
+    width: auto !important;
 }
 
 .card-title {
