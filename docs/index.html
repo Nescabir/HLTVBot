@@ -108,7 +108,10 @@ document.addEventListener("DOMContentLoaded",function(){
     fetch('bla-home.tk:8123', {
         method: 'get'
     }).then(function(response) {
-        document.getElementsByClassName("stat-server").innerHTML = response.json.toString();
+        let res = response.json();
+        document.getElementsByClassName("stat-server").innerHTML = res['servers'].toString();
+        console.log(res['servers']);
+        
     }).catch(function(err) {
         document.getElementsByClassName("stat-server").innerHTML = "Out of order";
     });
