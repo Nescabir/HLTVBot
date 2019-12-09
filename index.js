@@ -1,7 +1,9 @@
 const { Client, RichEmbed } = require('discord.js');
+const express = require("express");
 const { HLTV } = require('hltv');
 const client = new Client();
-
+const app = express();
+const port = 8123;
 
 const config = require("./config.json")
 
@@ -12,6 +14,8 @@ var prefix = '*hltv ';
 client.on('ready', () => {
     console.log("HLTV Bot is ready!");
     client.user.setActivity("ZywOo performing", {type: "WATCHING"});
+    let statistics = {"servers": client.guilds.size}
+    app.get('/', (req, res) => res.send(statistics));
 });
 
 // Help message
@@ -19,6 +23,7 @@ client.on('message', message => {
     if(message.content === prefix + "help"){
         const embed = new RichEmbed()
         .setTitle("HLTV Bot Help")
+        .setURL('https://hltvbot.js.org/')
         .setColor(0x3E6E9F)
         .addField("Prefix", "*hltv")
         .addBlankField()
@@ -53,25 +58,19 @@ client.on('message', message => {
                 .setTitle('**Latest top 10 HLTV ranking**')
                 .setURL('https://www.hltv.org/ranking/teams/')
                 .setColor(0x3E6E9F)
-                .addField("**#" + top10teams[0].place + " " + top10teams[0].name + "**", "Points : " + top10teams[0].points)
-                .addField("**#" + top10teams[1].place + " " + top10teams[1].name + "**", "Points : " + top10teams[1].points)
-                .addField("**#" + top10teams[2].place + " " + top10teams[2].name + "**", "Points : " + top10teams[2].points)
-                .addField("**#" + top10teams[3].place + " " + top10teams[3].name + "**", "Points : " + top10teams[3].points)
-                .addField("**#" + top10teams[4].place + " " + top10teams[4].name + "**", "Points : " + top10teams[4].points)
-                .addField("**#" + top10teams[5].place + " " + top10teams[5].name + "**", "Points : " + top10teams[5].points)
-                .addField("**#" + top10teams[6].place + " " + top10teams[6].name + "**", "Points : " + top10teams[6].points)
-                .addField("**#" + top10teams[7].place + " " + top10teams[7].name + "**", "Points : " + top10teams[7].points)
-                .addField("**#" + top10teams[8].place + " " + top10teams[8].name + "**", "Points : " + top10teams[9].points)
-                .addField("**#" + top10teams[9].place + " " + top10teams[9].name + "**", "Points : " + top10teams[9].points)
                 .setFooter('HLTV Bot', 'https://www.hltv.org/img/static/TopSmallLogo2x.png');
                 
+            top10teams.forEach(element => {
+                embed.addField("**#" + element.place + " " + element.name + "**", "Points : " + element.points);
+            });
+
             message.channel.send(embed);
         }).catch((reason) => {
             if(reason != undefined){
                 message.channel.send("Action couldn't be performed.").then( msg => {msg.delete(3000)})
             }
         });
-    } else if (message.content === + 'players') {
+    } else if (message.content === prefix + 'players') {
         HLTV.getPlayerRanking({startDate: '', endDate: ''}).then( (res) => {
             player_ranking = res;
             let top10players = [];
@@ -91,18 +90,12 @@ client.on('message', message => {
                 .setTitle('**Top 10 players of all time**')
                 .setURL('https://www.hltv.org/stats/players/')
                 .setColor(0x3E6E9F)
-                .addField("**#" + top10players[0].place + " " + top10players[0].name + "**", "Rating : " + top10players[0].rating)
-                .addField("**#" + top10players[1].place + " " + top10players[1].name + "**", "Rating : " + top10players[1].rating)
-                .addField("**#" + top10players[2].place + " " + top10players[2].name + "**", "Rating : " + top10players[2].rating)
-                .addField("**#" + top10players[3].place + " " + top10players[3].name + "**", "Rating : " + top10players[3].rating)
-                .addField("**#" + top10players[4].place + " " + top10players[4].name + "**", "Rating : " + top10players[4].rating)
-                .addField("**#" + top10players[5].place + " " + top10players[5].name + "**", "Rating : " + top10players[5].rating)
-                .addField("**#" + top10players[6].place + " " + top10players[6].name + "**", "Rating : " + top10players[6].rating)
-                .addField("**#" + top10players[7].place + " " + top10players[7].name + "**", "Rating : " + top10players[7].rating)
-                .addField("**#" + top10players[8].place + " " + top10players[8].name + "**", "Rating : " + top10players[8].rating)
-                .addField("**#" + top10players[9].place + " " + top10players[9].name + "**", "Rating : " + top10players[9].rating)
                 .setFooter('HLTV Bot', 'https://www.hltv.org/img/static/TopSmallLogo2x.png');
-                
+
+            top10players.forEach(element => {
+                embed.addField("**#" + element.place + " " + element.name + "**", "Rating : " + element.rating);
+            });
+            
             message.channel.send(embed);
         }).catch((reason) => {
             if(reason != undefined){
@@ -154,3 +147,4 @@ client.on('message', message => {
 
 // Bot Token
 client.login(config.token);
+app.listen(port, () => console.log("HLTV Bot statistics server is ready!"));
