@@ -83,8 +83,8 @@ body {
 .card {
     border-radius: 5px !important;
     box-shadow: none !important;
-    width: 18rem;
-    min-height: min-content;
+    width: 18rem !important;
+    min-height: min-content !important;
 }
 
 .card-title {
